@@ -21,20 +21,28 @@ function App() {
   useEffect(() => {
     if (choiceOne && choiceTwo) {
       if (choiceOne.src === choiceTwo.src) {
-        console.log("Choices matched!")
+        setCards(prevCards => {
+          return prevCards.map(card => {
+            if (card.src === choiceOne.src) {
+              return { ...card, matched: true }
+            } else {
+              return card;
+            }
+          })
+        })
         resetChoices();
-      }else{
-        console.log("Choices didnt matched!")
-        resetChoices();
+      } else {
+        setTimeout(() => {
+          resetChoices();
+        }, 1000);
       }
     }
-  }, [choiceOne,choiceTwo])
-  
+  }, [choiceOne, choiceTwo])
 
   function shuffledCards() {
     const shuffledCards = [...cardImages, ...cardImages]
       .sort(() => Math.random() - 0.5)
-      .map((card) => ({ ...card, id: Math.random() }))
+      .map((card) => ({ ...card, id: Math.random(), matched: false }))
 
     setCards(shuffledCards);
     setTurns(0);
@@ -45,7 +53,7 @@ function App() {
   }
 
   function resetChoices() {
-    setTurns(0);
+    setTurns(prev => prev + 1);
     setChoiceOne(null);
     setChoiceTwo(null);
   }
@@ -61,12 +69,15 @@ function App() {
           {
             cards.map(card => {
               return (
-                <SingleCard key={card.id} card={card} handleChoice={handleChoice} />
+                <SingleCard
+                  key={card.id}
+                  card={card}
+                  handleChoice={handleChoice}
+                  flipped={card === choiceOne || card === choiceTwo || card.matched}
+                />
               );
             })
           }
-
-
         </div>
       </div>
     </>

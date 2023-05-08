@@ -38,6 +38,11 @@ function App() {
       }
     }
   }, [choiceOne, choiceTwo])
+  
+  useEffect(() => {
+    shuffledCards();
+  }, [])
+  
 
   function shuffledCards() {
     const shuffledCards = [...cardImages, ...cardImages]
@@ -61,9 +66,11 @@ function App() {
   return (
     <>
       <div className="container">
-        <h1 className="title">Memory Game</h1>
-        <button onClick={shuffledCards}>Play Again</button>
-        <h4>Turns: {turns}</h4>
+        <div className="header">
+          <button onClick={shuffledCards}>Play Again</button>
+          <h1 className="title">Memory Game</h1>
+          <h4>Turns: {turns}</h4>
+        </div>
 
         <div className="cardsSection">
           {

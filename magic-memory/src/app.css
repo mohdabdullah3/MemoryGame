@@ -2,12 +2,32 @@ body{
    background-color: rgb(9, 61, 77);
    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.container{
-   text-align: center;
+::-webkit-scrollbar {
+   width: 6px;
+}
+::-webkit-scrollbar-track{
+   background-color: white;
+}
+::-webkit-scrollbar-thumb{
+   background-color: black;
+}
+.header{
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+}
+.header button{
+   padding: 10px;
+   border: none;
+   border-radius: 20px;
+   background-color: rgb(241, 185, 0);
+   cursor: pointer;
+}
+.header h4{
+   color: aliceblue;
 }
 .title{
    color: rgb(224, 224, 224);
-   margin-block: 2%;
 }
 .cardsSection{
    width: 60%;

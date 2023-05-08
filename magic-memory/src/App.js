@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './app.css'
 import { SingleCard } from './components/SingleCard';
+import { Modal } from './components/Modal';
 
 const cardImages = [
   { src: "./images/biden.jpg" },
@@ -17,6 +18,8 @@ function App() {
   const [turns, setTurns] = useState(0);
   const [choiceOne, setChoiceOne] = useState(null)
   const [choiceTwo, setChoiceTwo] = useState(null)
+  const [count, setCount] = useState(0);
+  const [modalShow, setModalShow] = useState(false)
 
   useEffect(() => {
     if (choiceOne && choiceTwo) {
@@ -30,6 +33,7 @@ function App() {
             }
           })
         })
+        setCount(prev => prev+1)
         resetChoices();
       } else {
         setTimeout(() => {
@@ -37,13 +41,15 @@ function App() {
         }, 1000);
       }
     }
+    if (count === 6) {
+      setModalShow(true)
+    }
   }, [choiceOne, choiceTwo])
   
   useEffect(() => {
     shuffledCards();
   }, [])
   
-
   function shuffledCards() {
     const shuffledCards = [...cardImages, ...cardImages]
       .sort(() => Math.random() - 0.5)
@@ -51,10 +57,17 @@ function App() {
 
     setCards(shuffledCards);
     setTurns(0);
+    setCount(0);
+    setModalShow(false);
   }
 
   function handleChoice(card) {
     choiceOne ? setChoiceTwo(card) : setChoiceOne(card)
+  }
+
+  function handleModal(show) {
+    setModalShow(show);
+    shuffledCards();
   }
 
   function resetChoices() {
@@ -65,6 +78,9 @@ function App() {
 
   return (
     <>
+    {
+      modalShow && <Modal turn = {turns} show = {handleModal} />
+    }
       <div className="container">
         <div className="header">
           <button onClick={shuffledCards}>Play Again</button>

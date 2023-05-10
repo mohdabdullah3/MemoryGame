@@ -16,13 +16,15 @@ function App() {
 
   const [cards, setCards] = useState([]);
   const [turns, setTurns] = useState(0);
-  const [choiceOne, setChoiceOne] = useState(null)
-  const [choiceTwo, setChoiceTwo] = useState(null)
+  const [choiceOne, setChoiceOne] = useState(null);
+  const [choiceTwo, setChoiceTwo] = useState(null);
   const [count, setCount] = useState(0);
-  const [modalShow, setModalShow] = useState(false)
+  const [disabled, setDisabled] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
     if (choiceOne && choiceTwo) {
+      setDisabled(true)
       if (choiceOne.src === choiceTwo.src) {
         setCards(prevCards => {
           return prevCards.map(card => {
@@ -58,6 +60,8 @@ function App() {
     setCards(shuffledCards);
     setTurns(0);
     setCount(0);
+    setChoiceOne(null);
+    setChoiceTwo(null);
     setModalShow(false);
   }
 
@@ -74,6 +78,7 @@ function App() {
     setTurns(prev => prev + 1);
     setChoiceOne(null);
     setChoiceTwo(null);
+    setDisabled(false);
   }
 
   return (
@@ -97,6 +102,7 @@ function App() {
                   card={card}
                   handleChoice={handleChoice}
                   flipped={card === choiceOne || card === choiceTwo || card.matched}
+                  disabled={disabled}
                 />
               );
             })
